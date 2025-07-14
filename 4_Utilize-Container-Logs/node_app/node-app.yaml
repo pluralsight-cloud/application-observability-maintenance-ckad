@@ -1,0 +1,30 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: node-app
+spec:
+  containers:
+  - name: app
+    image: node:20
+    command: ["node"]
+    args: ["app.js"]  
+    workingDir: /usr/src/app
+    volumeMounts:
+    - name: app-code
+      mountPath: /usr/src/app
+  - name: logger
+    image: busybox
+    args: ["/bin/sh", "-c", "while true; do echo '[logger] heartbeat: ${date}'; sleep 10; done"]
+  volumes:
+  - name: app-code
+    emptyDir: {}
+  initContainers:
+  - name: setup
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        echo "console.log('App.js loaded'); setInterval(() => console.log('App.js running'), 3000);" > /usr/src/app/app.js
+    volumeMounts:
+    - name: app-code
+      mountPath: /usr/src/app

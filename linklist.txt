@@ -1,0 +1,5 @@
+GitHub Repo
+https://github.com/pluralsight-cloud/application-observability-maintenance-ckad/tree/main/1_Understand-API-Deprecations
+
+Deprecation Policy
+https://kubernetes.io/docs/reference/using-api/deprecation-policy/
