@@ -1,0 +1,34 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: eventful-app
+spec:
+  containers:
+  - name: app
+    image: node:18
+    workingDir: /app
+    command: ["node", "app.js"]
+    volumeMounts:
+    - name: app-code
+      mountPath: /app
+  initContainers:
+  - name: init
+    image: busybox
+    command: ["/bin/sh", "-c"]
+    args:
+      - |
+        cat <<EOF > /app/app.js
+        const log = () => {
+          const t = new Date().toISOString();
+          const types = ['INFO', 'DEBUG', 'WARN', 'ERROR'];
+          const msg = types[Math.floor(Math.random() * types.length)];
+          console.log(\`[\${t}] \${msg}: This is a log message\`);
+        };
+        setInterval(log, 3000);
+        EOF
+    volumeMounts:
+    - name: app-code
+      mountPath: /app
+  volumes:
+  - name: app-code
+    emptyDir: {}
