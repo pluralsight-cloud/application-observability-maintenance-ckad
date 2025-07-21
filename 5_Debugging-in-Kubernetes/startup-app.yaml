@@ -1,0 +1,26 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: startup-app
+spec:
+  containers:
+  - name: main
+    image: busybox
+    command: ["sh", "-c", "sh /scripts/start.sh && sleep 3600"]
+    volumeMounts:
+    - name: script-volume
+      mountPath: /scripts
+    readinessProbe:
+      exec:
+        command: ["test", "-f", "/init/SETUP_COMPLETE"]
+      initialDelaySeconds: 5
+      periodSeconds: 5
+    livenessProbe:
+      exec:
+        command: ["test", "-f", "/init/SETUP_COMPLETE"]
+      initialDelaySeconds: 10
+      periodSeconds: 10
+  volumes:
+  - name: script-volume
+    configMap:
+      name: app-startup-scripts
