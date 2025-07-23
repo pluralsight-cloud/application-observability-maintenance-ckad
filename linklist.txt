@@ -3,3 +3,9 @@ https://github.com/pluralsight-cloud/application-observability-maintenance-ckad/
 
 Deprecation Policy
 https://kubernetes.io/docs/reference/using-api/deprecation-policy/
+
+Metrics Server GitHub
+https://github.com/kubernetes-sigs/metrics-server
+
+JSON Path Docs
+https://kubernetes.io/docs/reference/kubectl/jsonpath/
